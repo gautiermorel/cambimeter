@@ -1,6 +1,6 @@
 <template>
 	<div class="px-3">
-		<p>Cambio - Calculer le prix de votre trajet</p>
+		<p style="color: #EB690B"><b>Cambio Info Prix</b></p>
 	</div>
 </template>
 

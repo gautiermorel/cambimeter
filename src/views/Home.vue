@@ -1,15 +1,19 @@
 <template>
-	<div class="card flex justify-content-center">
+	<div class="card flex justify-content-center px-5 ">
 		<InputNumber v-model="kms" inputId="integeronly" />
 
-		<input type="datetime-local" :v-model="start" :value="start.toFormat('yyyy-MM-dd\'T\'HH:mm')" class="p-inputtext p-component" @input="event => handleInput(event, 'start')">
-		<input type="datetime-local" :v-model="end" :value="end.toFormat('yyyy-MM-dd\'T\'HH:mm')" class="p-inputtext p-component" @input="event => handleInput(event, 'end')">
+		<div class="flex">
+			<input type="datetime-local" :v-model="start" :value="start.toFormat('yyyy-MM-dd\'T\'HH:mm')" class="p-inputtext p-component" @input="event => handleInput(event, 'start')">
+			<input type="datetime-local" :v-model="end" :value="end.toFormat('yyyy-MM-dd\'T\'HH:mm')" class="p-inputtext p-component" @input="event => handleInput(event, 'end')">
+		</div>
 
 	</div>
 
-	<p>Trajet : {{ kms }} Km(s)</p>
-	<p>Durée : {{ duration.weeks }} semaine(s), {{ duration.days }} jour(s), {{duration.dayHours }} heure(s) de jour et {{duration.nightHours }} heure(s) de nuit {{ duration.minutes}} minute(s)</p>
-	<p>Estimation : <b>{{ price.toFixed(2) }} €</b></p>
+	<div class="card px-5">
+		<p><b>Trajet :</b> {{ kms }} Km(s)</p>
+		<p><b>Durée :</b> {{ duration.weeks }} semaine(s), {{ duration.days }} jour(s), {{duration.dayHours }} heure(s) de jour et {{duration.nightHours }} heure(s) de nuit {{ duration.minutes}} minute(s)</p>
+		<p><b>Estimation : </b><span style="color:#EB690B">{{ price.toFixed(2) }} €</span></p>
+	</div>
 
 </template>
 
