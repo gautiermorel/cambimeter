@@ -23,7 +23,7 @@ import { ref, computed, watch } from "vue";
 
 const subscription = 'Bonus'
 const category = 'S'
-const pricing = {
+const oldPricing = {
 	"Start": {
 		"S": {
 			"rateDayHour": 2.2,
@@ -127,6 +127,158 @@ const pricing = {
 		}
 	}
 }
+
+const pricing = {
+    "Start": {
+        "XS": {
+            "rateDayHour": 3.50,
+            "rateBelow100Km": 0.39,
+            "rateAbove100Km": 0.27,
+            "rateNightHour": 0.5
+        },
+        "S": {
+            "rateDayHour": 2.30,
+            "rateBelow100Km": 0.40,
+            "rateAbove100Km": 0.28,
+            "rateDay": 26.5,
+            "rateWeek": 159,
+            "rateNightHour": 0.5
+        },
+        "M": {
+            "rateDayHour": 2.90,
+            "rateBelow100Km": 0.42,
+            "rateAbove100Km": 0.28,
+            "rateDay": 33.5,
+            "rateWeek": 201,
+            "rateNightHour": 0.5
+        },
+        "L": {
+            "rateDayHour": 3.50,
+            "rateBelow100Km": 0.42,
+            "rateAbove100Km": 0.32,
+            "rateDay": 40,
+            "rateWeek": 240,
+            "rateNightHour": 1.0
+        },
+        "XL": {
+            "rateDayHour": 4.70,
+            "rateBelow100Km": 0.47,
+            "rateAbove100Km": 0.32,
+            "rateDay": 54,
+            "rateWeek": 324,
+            "rateNightHour": 1.0
+        }
+    },
+    "Bonus": {
+        "XS": {
+            "rateDayHour": 3.50,
+            "rateBelow100Km": 0.30,
+            "rateAbove100Km": 0.26,
+            "rateNightHour": 0.5
+        },
+        "S": {
+            "rateDayHour": 2.05,
+            "rateBelow100Km": 0.31,
+            "rateAbove100Km": 0.27,
+            "rateDay": 23.5,
+            "rateWeek": 141,
+            "rateNightHour": 0.5
+        },
+        "M": {
+            "rateDayHour": 2.40,
+            "rateBelow100Km": 0.37,
+            "rateAbove100Km": 0.27,
+            "rateDay": 27.5,
+            "rateWeek": 165,
+            "rateNightHour": 0.5
+        },
+        "L": {
+            "rateDayHour": 2.80,
+            "rateBelow100Km": 0.37,
+            "rateAbove100Km": 0.31,
+            "rateDay": 32,
+            "rateWeek": 192,
+            "rateNightHour": 1.0
+        },
+        "XL": {
+            "rateDayHour": 4.00,
+            "rateBelow100Km": 0.42,
+            "rateAbove100Km": 0.31,
+            "rateDay": 46,
+            "rateWeek": 276,
+            "rateNightHour": 1.0
+        }
+    },
+    "Comfort": {
+        "XS": {
+            "rateDayHour": 3.50,
+            "rateBelow100Km": 0.27,
+            "rateAbove100Km": 0.22,
+            "rateNightHour": 0.5
+        },
+        "S": {
+            "rateDayHour": 1.80,
+            "rateBelow100Km": 0.28,
+            "rateAbove100Km": 0.23,
+            "rateDay": 20.5,
+            "rateWeek": 123,
+            "rateNightHour": 0.5
+        },
+        "M": {
+            "rateDayHour": 2.20,
+            "rateBelow100Km": 0.28,
+            "rateAbove100Km": 0.23,
+            "rateDay": 25.5,
+            "rateWeek": 153,
+            "rateNightHour": 0.5
+        },
+        "L": {
+            "rateDayHour": 2.50,
+            "rateBelow100Km": 0.29,
+            "rateAbove100Km": 0.23,
+            "rateDay": 29,
+            "rateWeek": 174,
+            "rateNightHour": 1.0
+        },
+        "XL": {
+            "rateDayHour": 3.20,
+            "rateBelow100Km": 0.35,
+            "rateAbove100Km": 0.27,
+            "rateDay": 37,
+            "rateWeek": 222,
+            "rateNightHour": 1.0
+        }
+    },
+    "Campus": {
+        "XS": {
+            "rateDayHour": 3.50,
+            "rateBelow100Km": 0.39,
+            "rateAbove100Km": 0.27,
+            "rateNightHour": 0.5
+        },
+        "S": {
+            "rateDayHour": 2.30,
+            "rateBelow100Km": 0.40,
+            "rateAbove100Km": 0.28,
+            "rateDay": 26.5,
+            "rateWeek": 159,
+            "rateNightHour": 0.5
+        },
+        "M": {
+            "rateDayHour": 2.90,
+            "rateBelow100Km": 0.42,
+            "rateAbove100Km": 0.28,
+            "rateDay": 33.5,
+            "rateWeek": 201,
+            "rateNightHour": 0.5
+        }
+    },
+    "AutoEcole": {
+        "rateDayHour": 17,
+        "rateNightHour": 50 // dissuasive night rate
+    }
+};
+
 
 export default {
 	setup () {
