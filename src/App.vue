@@ -13,9 +13,6 @@
 </template>
 
 <script>
-import store from "@/store";
-import { computed } from "vue";
-
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 
@@ -24,15 +21,6 @@ export default {
 	components: {
 		Header,
 		Footer,
-	},
-	setup () {
-		return {
-			isBusy: computed(() => store.state.isBusy),
-			error: computed(() => store.state.error),
-			isAuthenticated: computed(() => store.getters.isAuthenticated),
-			onLogout: () => store.dispatch("logout"),
-			currentUser: computed(() => store.getters.getUser),
-		};
 	},
 };
 </script>
@@ -49,14 +37,5 @@ html {
 
 body {
 	background-color: #fcfcfc;
-}
-
-.wedding-list {
-	a {
-		text-decoration: none;
-	}
-	position: absolute;
-	top: 10px;
-	right: 25px;
 }
 </style>

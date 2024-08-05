@@ -7,25 +7,9 @@
 </template>
 
 <script>
-import { computed } from 'vue';
-import store from '@/store';
 
 export default {
 	name: 'Footer',
-	computed: {
-		currentUser: () => store.getters.getUser
-	},
-	setup () {
-		return {
-			isAuthenticated: computed(() => store.getters.isAuthenticated),
-			onLogout: () => store.dispatch("logout"),
-		};
-	},
-	data () {
-		return {
-			show: false
-		}
-	}
 }
 </script>
 

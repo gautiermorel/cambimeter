@@ -6,9 +6,8 @@ import DisableAutocomplete from '@aacassandra/vue-disable-autocomplete';
 import App from './App.vue'
 
 import router from './router'
-import store from './store'
 
-import './assets/21mai.css'
+import './assets/main.css'
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.css';
@@ -146,7 +145,6 @@ const primeOptions = {
 
 const app = createApp(App)
 
-app.use(store)
 app.use(router)
 
 app.use(PrimeVue, primeOptions)
