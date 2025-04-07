@@ -1,24 +1,20 @@
 {
   "name": "cambio",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "serve": "vue-cli-service serve --watch --skip-plugins @vue/cli-plugin-eslint",
-    "build": "vue-cli-service build --skip-plugins @vue/cli-plugin-eslint",
-    "lint": "vue-cli-service lint",
+    "start": "vite",
+    "build": "vite build",
+    "lint": "eslint --fix --ext .js,.vue src tests",
     "deploy": "firebase deploy"
   },
   "dependencies": {
     "@aacassandra/vue-disable-autocomplete": "^19.5.233",
-    "axios": "^1.4.0",
-    "luxon": "^3.3.0",
-    "moment": "^2.29.4",
-    "primeicons": "^6.0.1",
-    "primevue": "^3.29.2",
-    "vue": "^3.3.4",
-    "vue-router": "^4.2.2",
-    "vue-unicons": "^3.3.1",
-    "vuex": "^4.1.0"
+    "luxon": "^3.5.0",
+    "tailwindcss": "^3.4.9",
+    "vue": "^3.4.37",
+    "vue-router": "^4.4.3"
   },
   "browserslist": [
     "> 1%",
@@ -26,14 +22,8 @@
     "not dead"
   ],
   "devDependencies": {
-    "@vue/cli-plugin-eslint": "^5.0.8",
-    "@vue/cli-service": "^5.0.8",
-    "@vue/compiler-sfc": "^3.3.4",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^8.41.0",
-    "eslint-plugin-vue": "^9.14.1",
-    "node-sass": "^9.0.0",
-    "primeflex": "^3.3.0",
-    "sass-loader": "^13.3.1"
+    "@vitejs/plugin-vue": "^5.1.2",
+    "eslint": "^9.8.0",
+    "eslint-plugin-vue": "^9.27.0"
   }
 }

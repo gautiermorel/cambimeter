@@ -1,23 +1,16 @@
 <template>
 	<div class="card flex justify-content-center px-5 ">
-		<InputNumber v-model="kms" inputId="integeronly" />
+		<!-- <InputNumber v-model="kms" inputId="integeronly" /> -->
 
-		<div class="flex">
-			<input type="datetime-local" :v-model="start" :value="start.toFormat('yyyy-MM-dd\'T\'HH:mm')" class="p-inputtext p-component" @input="event => handleInput(event, 'start')">
-			<input type="datetime-local" :v-model="end" :value="end.toFormat('yyyy-MM-dd\'T\'HH:mm')" class="p-inputtext p-component" @input="event => handleInput(event, 'end')">
-		</div>
+		<input type="datetime-local" :v-model="start" :value="start.toFormat('yyyy-MM-dd\'T\'HH:mm')" class="p-inputtext p-component" @input="event => handleInput(event, 'start')">
+		<input type="datetime-local" :v-model="end" :value="end.toFormat('yyyy-MM-dd\'T\'HH:mm')" class="p-inputtext p-component" @input="event => handleInput(event, 'end')">
+		<input type="datetime-local" :v-model="bookingEnd" :value="bookingEnd.toFormat('yyyy-MM-dd\'T\'HH:mm')" class="p-inputtext p-component" @input="event => handleInput(event, 'bookingEnd')">
 
 	</div>
-
-	<div class="card px-5">
-		<p><b>Trajet :</b> {{ kms }} Km(s)</p>
-		<p><b>Durée :</b> {{ duration.weeks }} semaine(s), {{ duration.days }} jour(s), {{duration.dayHours }} heure(s) de jour et {{duration.nightHours }} heure(s) de nuit {{ duration.minutes}} minute(s)</p>
-		<p><b>Estimation : </b><span style="color:#EB690B">{{ price.toFixed(2) }} €</span></p>
-	</div>
-
 </template>
 
-<script>
+<script setup>
+import { ref, computed } from 'vue'
 import { DateTime } from 'luxon'
 import { ref, computed, watch } from "vue";
 
@@ -129,162 +122,162 @@ const oldPricing = {
 }
 
 const pricing = {
-    "Start": {
-        "XS": {
-            "rateDayHour": 3.50,
-            "rateBelow100Km": 0.39,
-            "rateAbove100Km": 0.27,
-            "rateNightHour": 0.5
-        },
-        "S": {
-            "rateDayHour": 2.30,
-            "rateBelow100Km": 0.40,
-            "rateAbove100Km": 0.28,
-            "rateDay": 26.5,
-            "rateWeek": 159,
-            "rateNightHour": 0.5
-        },
-        "M": {
-            "rateDayHour": 2.90,
-            "rateBelow100Km": 0.42,
-            "rateAbove100Km": 0.28,
-            "rateDay": 33.5,
-            "rateWeek": 201,
-            "rateNightHour": 0.5
-        },
-        "L": {
-            "rateDayHour": 3.50,
-            "rateBelow100Km": 0.42,
-            "rateAbove100Km": 0.32,
-            "rateDay": 40,
-            "rateWeek": 240,
-            "rateNightHour": 1.0
-        },
-        "XL": {
-            "rateDayHour": 4.70,
-            "rateBelow100Km": 0.47,
-            "rateAbove100Km": 0.32,
-            "rateDay": 54,
-            "rateWeek": 324,
-            "rateNightHour": 1.0
-        }
-    },
-    "Bonus": {
-        "XS": {
-            "rateDayHour": 3.50,
-            "rateBelow100Km": 0.30,
-            "rateAbove100Km": 0.26,
-            "rateNightHour": 0.5
-        },
-        "S": {
-            "rateDayHour": 2.05,
-            "rateBelow100Km": 0.31,
-            "rateAbove100Km": 0.27,
-            "rateDay": 23.5,
-            "rateWeek": 141,
-            "rateNightHour": 0.5
-        },
-        "M": {
-            "rateDayHour": 2.40,
-            "rateBelow100Km": 0.37,
-            "rateAbove100Km": 0.27,
-            "rateDay": 27.5,
-            "rateWeek": 165,
-            "rateNightHour": 0.5
-        },
-        "L": {
-            "rateDayHour": 2.80,
-            "rateBelow100Km": 0.37,
-            "rateAbove100Km": 0.31,
-            "rateDay": 32,
-            "rateWeek": 192,
-            "rateNightHour": 1.0
-        },
-        "XL": {
-            "rateDayHour": 4.00,
-            "rateBelow100Km": 0.42,
-            "rateAbove100Km": 0.31,
-            "rateDay": 46,
-            "rateWeek": 276,
-            "rateNightHour": 1.0
-        }
-    },
-    "Comfort": {
-        "XS": {
-            "rateDayHour": 3.50,
-            "rateBelow100Km": 0.27,
-            "rateAbove100Km": 0.22,
-            "rateNightHour": 0.5
-        },
-        "S": {
-            "rateDayHour": 1.80,
-            "rateBelow100Km": 0.28,
-            "rateAbove100Km": 0.23,
-            "rateDay": 20.5,
-            "rateWeek": 123,
-            "rateNightHour": 0.5
-        },
-        "M": {
-            "rateDayHour": 2.20,
-            "rateBelow100Km": 0.28,
-            "rateAbove100Km": 0.23,
-            "rateDay": 25.5,
-            "rateWeek": 153,
-            "rateNightHour": 0.5
-        },
-        "L": {
-            "rateDayHour": 2.50,
-            "rateBelow100Km": 0.29,
-            "rateAbove100Km": 0.23,
-            "rateDay": 29,
-            "rateWeek": 174,
-            "rateNightHour": 1.0
-        },
-        "XL": {
-            "rateDayHour": 3.20,
-            "rateBelow100Km": 0.35,
-            "rateAbove100Km": 0.27,
-            "rateDay": 37,
-            "rateWeek": 222,
-            "rateNightHour": 1.0
-        }
-    },
-    "Campus": {
-        "XS": {
-            "rateDayHour": 3.50,
-            "rateBelow100Km": 0.39,
-            "rateAbove100Km": 0.27,
-            "rateNightHour": 0.5
-        },
-        "S": {
-            "rateDayHour": 2.30,
-            "rateBelow100Km": 0.40,
-            "rateAbove100Km": 0.28,
-            "rateDay": 26.5,
-            "rateWeek": 159,
-            "rateNightHour": 0.5
-        },
-        "M": {
-            "rateDayHour": 2.90,
-            "rateBelow100Km": 0.42,
-            "rateAbove100Km": 0.28,
-            "rateDay": 33.5,
-            "rateWeek": 201,
-            "rateNightHour": 0.5
-        }
-    },
-    "AutoEcole": {
-        "rateDayHour": 17,
-        "rateNightHour": 50 // dissuasive night rate
-    }
+	"Start": {
+		"XS": {
+			"rateDayHour": 3.50,
+			"rateBelow100Km": 0.39,
+			"rateAbove100Km": 0.27,
+			"rateNightHour": 0.5
+		},
+		"S": {
+			"rateDayHour": 2.30,
+			"rateBelow100Km": 0.40,
+			"rateAbove100Km": 0.28,
+			"rateDay": 26.5,
+			"rateWeek": 159,
+			"rateNightHour": 0.5
+		},
+		"M": {
+			"rateDayHour": 2.90,
+			"rateBelow100Km": 0.42,
+			"rateAbove100Km": 0.28,
+			"rateDay": 33.5,
+			"rateWeek": 201,
+			"rateNightHour": 0.5
+		},
+		"L": {
+			"rateDayHour": 3.50,
+			"rateBelow100Km": 0.42,
+			"rateAbove100Km": 0.32,
+			"rateDay": 40,
+			"rateWeek": 240,
+			"rateNightHour": 1.0
+		},
+		"XL": {
+			"rateDayHour": 4.70,
+			"rateBelow100Km": 0.47,
+			"rateAbove100Km": 0.32,
+			"rateDay": 54,
+			"rateWeek": 324,
+			"rateNightHour": 1.0
+		}
+	},
+	"Bonus": {
+		"XS": {
+			"rateDayHour": 3.50,
+			"rateBelow100Km": 0.30,
+			"rateAbove100Km": 0.26,
+			"rateNightHour": 0.5
+		},
+		"S": {
+			"rateDayHour": 2.05,
+			"rateBelow100Km": 0.31,
+			"rateAbove100Km": 0.27,
+			"rateDay": 23.5,
+			"rateWeek": 141,
+			"rateNightHour": 0.5
+		},
+		"M": {
+			"rateDayHour": 2.40,
+			"rateBelow100Km": 0.37,
+			"rateAbove100Km": 0.27,
+			"rateDay": 27.5,
+			"rateWeek": 165,
+			"rateNightHour": 0.5
+		},
+		"L": {
+			"rateDayHour": 2.80,
+			"rateBelow100Km": 0.37,
+			"rateAbove100Km": 0.31,
+			"rateDay": 32,
+			"rateWeek": 192,
+			"rateNightHour": 1.0
+		},
+		"XL": {
+			"rateDayHour": 4.00,
+			"rateBelow100Km": 0.42,
+			"rateAbove100Km": 0.31,
+			"rateDay": 46,
+			"rateWeek": 276,
+			"rateNightHour": 1.0
+		}
+	},
+	"Comfort": {
+		"XS": {
+			"rateDayHour": 3.50,
+			"rateBelow100Km": 0.27,
+			"rateAbove100Km": 0.22,
+			"rateNightHour": 0.5
+		},
+		"S": {
+			"rateDayHour": 1.80,
+			"rateBelow100Km": 0.28,
+			"rateAbove100Km": 0.23,
+			"rateDay": 20.5,
+			"rateWeek": 123,
+			"rateNightHour": 0.5
+		},
+		"M": {
+			"rateDayHour": 2.20,
+			"rateBelow100Km": 0.28,
+			"rateAbove100Km": 0.23,
+			"rateDay": 25.5,
+			"rateWeek": 153,
+			"rateNightHour": 0.5
+		},
+		"L": {
+			"rateDayHour": 2.50,
+			"rateBelow100Km": 0.29,
+			"rateAbove100Km": 0.23,
+			"rateDay": 29,
+			"rateWeek": 174,
+			"rateNightHour": 1.0
+		},
+		"XL": {
+			"rateDayHour": 3.20,
+			"rateBelow100Km": 0.35,
+			"rateAbove100Km": 0.27,
+			"rateDay": 37,
+			"rateWeek": 222,
+			"rateNightHour": 1.0
+		}
+	},
+	"Campus": {
+		"XS": {
+			"rateDayHour": 3.50,
+			"rateBelow100Km": 0.39,
+			"rateAbove100Km": 0.27,
+			"rateNightHour": 0.5
+		},
+		"S": {
+			"rateDayHour": 2.30,
+			"rateBelow100Km": 0.40,
+			"rateAbove100Km": 0.28,
+			"rateDay": 26.5,
+			"rateWeek": 159,
+			"rateNightHour": 0.5
+		},
+		"M": {
+			"rateDayHour": 2.90,
+			"rateBelow100Km": 0.42,
+			"rateAbove100Km": 0.28,
+			"rateDay": 33.5,
+			"rateWeek": 201,
+			"rateNightHour": 0.5
+		}
+	},
+	"AutoEcole": {
+		"rateDayHour": 17,
+		"rateNightHour": 50 // dissuasive night rate
+	}
 };
-
 
 export default {
 	setup () {
 		const nowPlus1Hour = DateTime.now().startOf('hour').plus({ hour: 1 })
 		const start = ref(nowPlus1Hour);
 		const end = ref(nowPlus1Hour);
+		const bookingEnd = ref(nowPlus1Hour);
 		const kms = ref(0);
 
 		// need to check also if the start date is under the end date, then make the change, otherwise, let it as it.
@@ -295,6 +288,7 @@ export default {
 			const format = 'yyyy-MM-dd\'T\'HH:mm';
 			if (key === 'start') start.value = DateTime.fromFormat(value, format);
 			if (key === 'end') end.value = DateTime.fromFormat(value, format);
+			if (key === 'bookingEnd') bookingEnd.value = DateTime.fromFormat(value, format);
 		};
 
 		const duration = computed(() => {
@@ -324,6 +318,33 @@ export default {
 			return { weeks, days, nightHours, dayHours, minutes };
 		});
 
+		const cancelDuration = computed(() => {
+			if (!end.value || !bookingEnd.value) return {};
+
+			const startDate = end.value
+			const endDate = bookingEnd.value
+
+			const diff = endDate.diff(startDate, ["weeks", "days", "hours", "minutes"])
+			const { weeks, days, hours, minutes } = diff.toObject() || {}
+
+
+			// Comment savoir si c'est dans la nuit ?
+			let hoursBetweenMidnightAnd6AM = 0;
+
+			for (let i = 0; i < hours; i++) {
+				const hour = startDate.plus({ hours: i }).hour;
+
+				if (hour >= 0 && hour < 6) {
+					hoursBetweenMidnightAnd6AM++;
+				}
+			}
+
+			const nightHours = hoursBetweenMidnightAnd6AM
+			const dayHours = Math.max(0, hours - hoursBetweenMidnightAnd6AM)
+
+			return { weeks, days, nightHours, dayHours, minutes };
+		})
+
 		const trip = computed(() => ({
 			rateBelow100Km: Math.min(kms.value, 100),
 			rateAbove100Km: Math.max(0, kms.value - 100),
@@ -331,6 +352,13 @@ export default {
 			rateDay: duration.value.days,
 			rateNightHour: duration.value.nightHours,
 			rateDayHour: duration.value.dayHours,
+		}))
+
+		const cancelTrip = computed(() => ({
+			rateWeek: cancelDuration.value.weeks,
+			rateDay: cancelDuration.value.days,
+			rateNightHour: cancelDuration.value.nightHours,
+			rateDayHour: cancelDuration.value.dayHours,
 		}))
 
 		const formulas = computed(() => Object.entries(trip.value).reduce((price, [key, value], idx, arr) => {
@@ -346,13 +374,23 @@ export default {
 			return price
 		}, { rateBelow100Km: 0, rateAbove100Km: 0, rateWeek: 0, rateDay: 0, rateNightHour: 0, rateDayHour: 0 }))
 
+		const cancelSums = computed(() => Object.entries(cancelTrip.value).reduce((price, [key, value]) => {
+			price[key] = pricing[subscription][category][key] * value
+
+			return price
+		}, { rateWeek: 0, rateDay: 0, rateNightHour: 0, rateDayHour: 0 }))
+
 		const price = computed(() => {
 			const { rateBelow100Km, rateAbove100Km, rateWeek, rateDay, rateNightHour, rateDayHour } = sums.value || {}
+
+			const { rateWeek: cancelRateWeek, rateDay: cancelRateDay, rateNightHour: cancelRateNightHour, rateDayHour: cancelRateDayHour } = cancelSums.value || {}
+
+			const cancelRate = (30 / 100) * (cancelRateWeek + cancelRateDay + Math.min(cancelRateNightHour + cancelRateDayHour, pricing[subscription][category].rateDay))
 
 			return rateBelow100Km + rateAbove100Km + rateWeek + rateDay + Math.min(rateNightHour + rateDayHour, pricing[subscription][category].rateDay)
 		})
 
-		return { duration, trip, kms, start, end, subscription, category, price, formulas, handleInput };
+		return { duration, cancelDuration, trip, kms, start, end, bookingEnd, subscription, category, price, formulas, handleInput };
 	},
 };
 </script>
