@@ -72,8 +72,16 @@
 
     <div class="mt-2">
       <div class="font-medium">Prix :</div>
-      <div v-if="price !== null" class="text-green-600 font-semibold">
-        {{ price.toFixed(2) }} €
+      <div class="flex" v-if="price.avg !== null">
+        <div class="text-green-600 font-semibold">
+          {{ price.min.toFixed(2) }} € (min) &nbsp;
+        </div> | &nbsp;
+        <div class="text-blue-600 font-bold">
+          {{ price.avg.toFixed(2) }} € &nbsp;
+        </div> | &nbsp;
+        <div class="text-red-600 font-semibold">
+          {{ price.max.toFixed(2) }} € (max)
+        </div>
       </div>
       <div v-else class="text-gray-500">Pas assez d'info</div>
     </div>
@@ -628,10 +636,10 @@ const durationDisplay = computed(() => {
     .diff(start, ["weeks", "days", "hours", "minutes"])
     .toObject();
   const parts = [];
-  if (diff.weeks) parts.push(`${Math.floor(diff.weeks)} sem`);
-  if (diff.days) parts.push(`${Math.floor(diff.days)} j`);
-  if (diff.hours) parts.push(`${Math.floor(diff.hours)} h`);
-  if (diff.minutes) parts.push(`${Math.floor(diff.minutes)} min`);
+  if (diff.weeks) parts.push(`${Math.floor(diff.weeks)} semaine(s)`);
+  if (diff.days) parts.push(`${Math.floor(diff.days)} jour(s)`);
+  if (diff.hours) parts.push(`${Math.floor(diff.hours)} heure(s)`);
+  if (diff.minutes) parts.push(`${Math.floor(diff.minutes)} minute(s)`);
 
   return parts.length ? parts.join(" ") : "—";
 });
@@ -651,35 +659,59 @@ const price = computed(() => {
   const end = DateTime.fromISO(endTime.value);
   if (!start.isValid || !end.isValid || end <= start) return null;
 
-  const duration = end.diff(start, ["hours"]).hours;
-  const durationHours = Math.ceil(duration);
-  const days = duration / 24;
-  const weeks = days / 7;
-
   const data = pricing[rate.value][plan.value]?.[category.value];
   if (!data) return null;
 
-  let base = 0;
+  const durationHours = Math.ceil(end.diff(start, ["hours"]).hours);
+  const hourlyRate = data.hourly;
+  const nightlyRate = 0.5;
 
-  if (weeks >= 1 && data.weekly) {
-    base = Math.ceil(weeks) * data.weekly;
-  } else if (days >= 1 && data.daily) {
-    base = Math.ceil(days) * data.daily;
-  } else {
-    base = durationHours * data.hourly;
-  }
-
-  let kmCost = 0;
-  if (data.perKm) {
-    if (kms.value <= 100) {
-      kmCost = kms.value * data.perKm["0-100"];
-    } else {
-      kmCost =
-        100 * data.perKm["0-100"] + (kms.value - 100) * data.perKm["101+"];
+  let nightHours = 0;
+  for (let dt = start.startOf("hour"); dt < end; dt = dt.plus({ hours: 1 })) {
+    const hour = dt.hour;
+    if (hour >= 0 && hour < 6) {
+      nightHours++;
     }
   }
 
-  return base + kmCost;
+  const dayHours = durationHours - nightHours;
+  const mixedHourlyCost = dayHours * hourlyRate + nightHours * nightlyRate;
+
+  const totalDays = end.diff(start, ["days"]).days;
+  const totalWeeks = totalDays / 7;
+
+  const dailyCost = data.daily ? Math.ceil(totalDays) * data.daily : Infinity;
+  const weeklyCost = data.weekly
+    ? Math.ceil(totalWeeks) * data.weekly
+    : Infinity;
+
+  const timeCost = Math.min(mixedHourlyCost, dailyCost, weeklyCost);
+
+  let kmCostMin = 0;
+  let kmCostAvg = 0;
+  let kmCostMax = 0;
+  if (data.perKm) {
+    if (kms.value <= 100) {
+      kmCostMin = kms.value * (data.perKm["0-100"] - 0.02);
+      kmCostAvg = kms.value * data.perKm["0-100"];
+      kmCostMax = kms.value * (data.perKm["0-100"] + 0.02);
+    } else {
+      kmCostMin =
+        100 * (data.perKm["0-100"] - 0.02) +
+        (kms.value - 100) * (data.perKm["101+"] - 0.02);
+      kmCostAvg =
+        100 * data.perKm["0-100"] + (kms.value - 100) * data.perKm["101+"];
+      kmCostMax =
+        100 * (data.perKm["0-100"] + 0.02) +
+        (kms.value - 100) * (data.perKm["101+"] + 0.02);
+    }
+  }
+
+  return {
+    min: Math.round((timeCost + kmCostMin) * 100) / 100,
+    avg: Math.round((timeCost + kmCostAvg) * 100) / 100,
+    max: Math.round((timeCost + kmCostMax) * 100) / 100,
+  };
 });
 
 watch([plan, category, rate, startTime, endTime, kms], () => {}, {
