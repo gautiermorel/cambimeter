@@ -72,18 +72,35 @@
 
     <div class="mt-2">
       <div class="font-medium">Prix :</div>
-      <div class="flex" v-if="price.avg !== null">
-        <div class="text-green-600 font-semibold">
-          {{ price.min.toFixed(2) }} € (min) &nbsp;
-        </div> | &nbsp;
-        <div class="text-blue-600 font-bold">
-          {{ price.avg.toFixed(2) }} € &nbsp;
-        </div> | &nbsp;
-        <div class="text-red-600 font-semibold">
-          {{ price.max.toFixed(2) }} € (max)
+      <div
+        v-if="price?.avg"
+        class="flex items-center justify-between gap-4 p-4 rounded-2xl border border-gray-200 w-full max-w-md"
+      >
+        <div class="flex items-center gap-2 text-green-600 font-semibold">
+          <span class="text-xl">📉</span>
+          <span>{{ price?.min?.toFixed(2) }} €</span>
+        </div>
+        <div class="flex items-center gap-2 text-blue-600 font-bold text-lg">
+          <span class="text-base">💶</span>
+          <span>{{ price?.avg?.toFixed(2) }} €</span>
+        </div>
+        <div class="flex items-center gap-2 text-red-600 font-semibold">
+          <span class="text-xl">📈</span>
+          <span>{{ price?.max?.toFixed(2) }} €</span>
         </div>
       </div>
+
       <div v-else class="text-gray-500">Pas assez d'info</div>
+      <div class="pt-5">
+        <em
+          >Les prix au kilomètre suivent les prix officiels des carburants et
+          sont adaptés à partir du 1er du mois qui suit la constatation du
+          changement tarifaire. Toute variation de 0,15 € du prix du carburant
+          entraîne un ajustement de 0,01 € du prix au kilomètre, à partir du 1er
+          du mois suivant. La calculatrice prix pour une baisse de 30 cents,
+          ainsi qu'une hausse de 30 cents € en plus de prix standard.</em
+        >
+      </div>
     </div>
   </div>
 </template>
