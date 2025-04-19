@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-xl mx-auto p-4 sm:p-6 space-y-6 text-base sm:text-sm">
-    <h1 class="text-xl font-bold">Cambio Info - Prix</h1>
+    <h1 class="text-xl font-bold">Cambimeter</h1>
 
     <div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
       <div>
