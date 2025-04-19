@@ -1,8 +1,8 @@
 <template>
-  <div class="max-w-xl mx-auto p-6 space-y-6 text-sm">
+  <div class="max-w-xl mx-auto p-4 sm:p-6 space-y-6 text-base sm:text-sm">
     <h1 class="text-xl font-bold">Cambio Info - Prix</h1>
 
-    <div class="grid gap-4 grid-cols-2">
+    <div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
       <div>
         <label class="block mb-1 font-medium">Plan</label>
         <select v-model="plan" class="w-full p-2 border rounded">
@@ -53,6 +53,7 @@
           class="w-full p-2 border rounded"
         />
       </div>
+
       <div>
         <label class="block mb-1 font-medium">Tarifs</label>
         <select v-model="rate" class="w-full p-2 border rounded">
@@ -74,7 +75,7 @@
       <div class="font-medium">Prix :</div>
       <div
         v-if="price?.avg"
-        class="flex items-center justify-between gap-4 p-4 rounded-2xl border border-gray-200 w-full max-w-md"
+        class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 bg-white w-full border rounded"
       >
         <div class="flex items-center gap-2 text-green-600 font-semibold">
           <span class="text-xl">📉</span>
@@ -91,15 +92,14 @@
       </div>
 
       <div v-else class="text-gray-500">Pas assez d'info</div>
-      <div class="pt-5">
-        <em
-          >Les prix au kilomètre suivent les prix officiels des carburants et
-          sont adaptés à partir du 1er du mois qui suit la constatation du
-          changement tarifaire. Toute variation de 0,15 € du prix du carburant
-          entraîne un ajustement de 0,01 € du prix au kilomètre, à partir du 1er
-          du mois suivant. La calculatrice prix pour une baisse de 30 cents,
-          ainsi qu'une hausse de 30 cents € en plus de prix standard.</em
-        >
+
+      <div class="pt-5 text-sm italic text-gray-600">
+        Les prix au kilomètre suivent les prix officiels des carburants et sont
+        adaptés à partir du 1er du mois qui suit la constatation du changement
+        tarifaire. Toute variation de 0,15 € du prix du carburant entraîne un
+        ajustement de 0,01 € du prix au kilomètre, à partir du 1er du mois
+        suivant. La calculatrice prix pour une baisse de 30 cents, ainsi qu'une
+        hausse de 30 cents € en plus de prix standard.
       </div>
     </div>
   </div>
