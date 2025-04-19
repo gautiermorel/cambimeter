@@ -1,105 +1,159 @@
 <template>
-  <div class="max-w-xl mx-auto p-4 sm:p-6 space-y-6 text-base sm:text-sm">
-    <h1 class="text-xl font-bold">Cambimeter</h1>
-
-    <div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
-      <div>
-        <label class="block mb-1 font-medium">Plan</label>
-        <select v-model="plan" class="w-full p-2 border rounded">
-          <option disabled value="">Choisir un plan</option>
-          <option value="start">Start</option>
-          <option value="bonus">Bonus</option>
-          <option value="comfort">Confort</option>
-        </select>
-      </div>
-
-      <div>
-        <label class="block mb-1 font-medium">Catégorie</label>
-        <select v-model="category" class="w-full p-2 border rounded">
-          <option disabled value="">Choisir une catégorie</option>
-          <option value="XS">XS</option>
-          <option value="S">S</option>
-          <option value="M">M</option>
-          <option value="L">L</option>
-          <option value="XL">XL</option>
-        </select>
-      </div>
-
-      <div>
-        <label class="block mb-1 font-medium">Début</label>
-        <input
-          type="datetime-local"
-          v-model="startTime"
-          @change="handleStartChange"
-          class="w-full p-2 border rounded"
-        />
-      </div>
-
-      <div>
-        <label class="block mb-1 font-medium">Fin</label>
-        <input
-          type="datetime-local"
-          v-model="endTime"
-          class="w-full p-2 border rounded"
-        />
-      </div>
-
-      <div>
-        <label class="block mb-1 font-medium">Kilométrage</label>
-        <input
-          type="number"
-          min="0"
-          v-model.number="kms"
-          class="w-full p-2 border rounded"
-        />
-      </div>
-
-      <div>
-        <label class="block mb-1 font-medium">Tarifs</label>
-        <select v-model="rate" class="w-full p-2 border rounded">
-          <option disabled value="">Choisir une grille de tarifs</option>
-          <option value="2022-10">2022-10</option>
-          <option value="2023-10">2023-10</option>
-          <option value="2024-03">2024-03</option>
-          <option value="2025-03">2025-03</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="mt-4">
-      <div class="font-medium">Durée :</div>
-      <div>{{ durationDisplay }}</div>
-    </div>
-
-    <div class="mt-2">
-      <div class="font-medium">Prix :</div>
-      <div
-        v-if="price?.avg"
-        class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 bg-white w-full border rounded"
-      >
-        <div class="flex items-center gap-2 text-green-600 font-semibold">
-          <span class="text-xl">📉</span>
-          <span>{{ price?.min?.toFixed(2) }} €</span>
+  <div
+    class="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-100 px-4 py-8"
+  >
+    <div
+      class="max-w-3xl mx-auto bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200 p-6 sm:p-10 space-y-8"
+    >
+      <!-- Header -->
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          <img
+            src="/favicon.svg"
+            alt="Cambimeter Logo"
+            class="h-10 w-10 rounded-full shadow"
+          />
+          <h1 class="text-2xl font-extrabold tracking-tight text-gray-800">
+            Cambimeter
+          </h1>
         </div>
-        <div class="flex items-center gap-2 text-blue-600 font-bold text-lg">
-          <span class="text-base">💶</span>
-          <span>{{ price?.avg?.toFixed(2) }} €</span>
+        <span class="text-sm text-gray-500">Estimation en temps réel</span>
+      </div>
+
+      <!-- Form Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <!-- Plan -->
+        <div>
+          <label class="block mb-2 text-sm font-medium text-gray-700"
+            >📦 Plan</label
+          >
+          <select
+            v-model="plan"
+            class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option disabled value="">Choisir un plan</option>
+            <option value="start">Start</option>
+            <option value="bonus">Bonus</option>
+            <option value="comfort">Confort</option>
+          </select>
         </div>
-        <div class="flex items-center gap-2 text-red-600 font-semibold">
-          <span class="text-xl">📈</span>
-          <span>{{ price?.max?.toFixed(2) }} €</span>
+
+        <!-- Catégorie -->
+        <div>
+          <label class="block mb-2 text-sm font-medium text-gray-700"
+            >🚗 Catégorie</label
+          >
+          <select
+            v-model="category"
+            class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option disabled value="">Choisir une catégorie</option>
+            <option value="XS">XS</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </select>
+        </div>
+
+        <!-- Début -->
+        <div>
+          <label class="block mb-2 text-sm font-medium text-gray-700"
+            >🕓 Début</label
+          >
+          <input
+            type="datetime-local"
+            v-model="startTime"
+            @change="handleStartChange"
+            class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <!-- Fin -->
+        <div>
+          <label class="block mb-2 text-sm font-medium text-gray-700"
+            >🕔 Fin</label
+          >
+          <input
+            type="datetime-local"
+            v-model="endTime"
+            class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <!-- Kilométrage -->
+        <div>
+          <label class="block mb-2 text-sm font-medium text-gray-700"
+            >🛣️ Kilométrage</label
+          >
+          <input
+            type="number"
+            min="0"
+            v-model.number="kms"
+            class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <!-- Tarifs -->
+        <div>
+          <label class="block mb-2 text-sm font-medium text-gray-700"
+            >📅 Grille tarifaire</label
+          >
+          <select
+            v-model="rate"
+            class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option disabled value="">Choisir une grille</option>
+            <option value="2022-10">2022-10</option>
+            <option value="2023-10">2023-10</option>
+            <option value="2024-03">2024-03</option>
+            <option value="2025-03">2025-03</option>
+          </select>
         </div>
       </div>
 
-      <div v-else class="text-gray-500">Pas assez d'info</div>
+      <!-- Résultats -->
+      <div class="space-y-4">
+        <!-- Durée -->
+        <div>
+          <div class="font-medium text-gray-700">⏳ Durée :</div>
+          <div class="text-gray-900">{{ durationDisplay }}</div>
+        </div>
 
-      <div class="pt-5 text-sm italic text-gray-600">
-        Les prix au kilomètre suivent les prix officiels des carburants et sont
-        adaptés à partir du 1er du mois qui suit la constatation du changement
-        tarifaire. Toute variation de 0,15 € du prix du carburant entraîne un
-        ajustement de 0,01 € du prix au kilomètre, à partir du 1er du mois
-        suivant. La calculatrice prix pour une baisse de 30 cents, ainsi qu'une
-        hausse de 30 cents € en plus de prix standard.
+        <!-- Prix -->
+        <div>
+          <div class="font-medium text-gray-700">💰 Prix :</div>
+
+          <div v-if="price?.avg" class="cursor-pointer text-center space-y-1">
+            <div class="text-2xl font-bold relative group">
+              {{ price?.avg }} €
+              <span
+                v-if="price"
+                class="absolute -top-1 -right-1 text-xs text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+                (min {{ price.min }} € — max {{ price.max }} €)
+              </span>
+            </div>
+            <div class="text-sm text-gray-400">Prix estimé</div>
+          </div>
+
+          <div v-else class="text-gray-500 italic">
+            Pas assez d'info pour calculer.
+          </div>
+        </div>
+
+        <div class="pt-4 text-sm text-gray-600 border-t border-gray-200">
+          <p class="italic">
+            Les prix au kilomètre suivent les prix officiels des carburants et
+            sont ajustés à partir du 1er du mois suivant un changement
+            tarifaire. Une variation de 0,15 € entraîne un ajustement de 0,01 €
+            du prix/km.
+          </p>
+          <p class="mt-2 italic">
+            Cambimeter estime aussi les tarifs avec une variation hypothétique
+            de ±30 centimes €.
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -637,6 +691,14 @@ function handleStartChange() {
   }
 }
 
+function formatUnit(value, singular, plural) {
+  const rounded = Math.floor(value);
+  if (!rounded) return null;
+  const label = rounded === 1 ? singular : (plural || singular + "s");
+  return `${rounded} ${label}`;
+}
+
+
 const durationMinutes = computed(() => {
   if (!startTime.value || !endTime.value) return 0;
   const start = DateTime.fromISO(startTime.value);
@@ -647,18 +709,31 @@ const durationMinutes = computed(() => {
 const durationDisplay = computed(() => {
   const start = DateTime.fromISO(startTime.value);
   const end = DateTime.fromISO(endTime.value);
-  if (!start.isValid || !end.isValid) return "—";
+  if (!start.isValid || !end.isValid || end <= start) return "—";
 
-  const diff = end
-    .diff(start, ["weeks", "days", "hours", "minutes"])
-    .toObject();
+  const diff = end.diff(start, ["weeks", "days", "hours", "minutes"]).toObject();
   const parts = [];
-  if (diff.weeks) parts.push(`${Math.floor(diff.weeks)} semaine(s)`);
-  if (diff.days) parts.push(`${Math.floor(diff.days)} jour(s)`);
-  if (diff.hours) parts.push(`${Math.floor(diff.hours)} heure(s)`);
-  if (diff.minutes) parts.push(`${Math.floor(diff.minutes)} minute(s)`);
 
-  return parts.length ? parts.join(" ") : "—";
+  const w = formatUnit(diff.weeks ?? 0, "semaine");
+  const d = formatUnit(diff.days ?? 0, "jour");
+  const h = formatUnit(diff.hours ?? 0, "heure");
+  const m = formatUnit(diff.minutes ?? 0, "minute");
+
+  if (w) parts.push(w);
+  if (d) parts.push(d);
+  if (h) parts.push(h);
+  if (m) parts.push(m);
+
+  const totalMinutes = end.diff(start, "minutes").as("minutes");
+  const totalHours = Math.floor(totalMinutes / 60);
+  const minutes = Math.round(totalMinutes % 60);
+  const pad = (n) => n.toString().padStart(2, "0");
+
+  const totalFormatted = `${totalHours}:${pad(minutes)}`;
+
+  return parts.length
+    ? `${parts.join(", ")} (${totalFormatted})`
+    : `${totalFormatted}`;
 });
 
 const price = computed(() => {
